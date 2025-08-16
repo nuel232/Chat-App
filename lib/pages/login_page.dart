@@ -1,3 +1,4 @@
+import 'package:chat_app/auth/auth_service.dart';
 import 'package:chat_app/components/my_button.dart';
 import 'package:chat_app/components/my_textfield.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,24 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
 
   //login method
-  void login() {}
+  void login(BuildContext context) async {
+    //get out auth service
+    final authService = AuthService();
+
+    //try login
+    try {
+      await authService.signWithEmailPassword(
+        _emailController.text,
+        _passwordController.text,
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(title: Text(e.toString())),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +40,16 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 150),
+
               //logo
               Icon(
                 Icons.message,
                 size: 60,
                 color: Theme.of(context).colorScheme.primary,
               ),
+
               SizedBox(height: 50),
+
               //welcome back message
               Text(
                 'welcome back, you\'ve been missed',
@@ -37,6 +58,7 @@ class LoginPage extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
+
               SizedBox(height: 50),
 
               //email textfield
@@ -58,7 +80,7 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 15),
 
               //login button
-              MyButton(text: 'Login', onTap: login),
+              MyButton(text: 'Login', onTap: () => login(context)),
 
               //register now
               SizedBox(height: 15),
