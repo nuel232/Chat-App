@@ -3,6 +3,7 @@ import 'package:chat_app/components/user_tile.dart';
 import 'package:chat_app/pages/chat_page.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:chat_app/services/chat/chat_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -52,17 +53,21 @@ class HomePage extends StatelessWidget {
     BuildContext context,
   ) {
     //display all users except current user
-    return UserTile(
-      text: userData['email'],
-      onTap: () {
-        //tapped on a user to go to chat page
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatPage(receiverEmail: userData["email"]),
-          ),
-        );
-      },
-    );
+    if (userData["email"] != _authService.getCurrentUser()!.email) {
+      return UserTile(
+        text: userData['email'],
+        onTap: () {
+          //tapped on a user to go to chat page
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatPage(receiverEmail: userData["email"]),
+            ),
+          );
+        },
+      );
+    } else {
+      return Container();
+    }
   }
 }

@@ -6,6 +6,12 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text(receiverEmail)));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(receiverEmail),
+        centerTitle: true,
+        elevation: 3,
+      ),
+    );
   }
 }
