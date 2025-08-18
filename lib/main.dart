@@ -5,7 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  //This ensures Flutter is ready before we do anything
   WidgetsFlutterBinding.ensureInitialized();
+  // Connect to Firebase - this is like plugging into the internet
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }

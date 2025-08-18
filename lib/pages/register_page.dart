@@ -1,3 +1,4 @@
+import 'package:chat_app/pages/login_page.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:chat_app/components/my_button.dart';
 import 'package:chat_app/components/my_textfield.dart';
@@ -19,15 +20,50 @@ class RegisterPage extends StatelessWidget {
 
     //passwords match -> create user
     if (_passwordController.text == _confirmPasswordController.text) {
+      // Check if passwords match first
+      if (_passwordController.text != _confirmPasswordController.text) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Password Mismatch'),
+            content: Text(
+              'Passwords don\'t match! Please check and try again.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
       try {
         auth.signUpWithEmailPassword(
           _emailController.text,
           _passwordController.text,
         );
       } catch (e) {
+        // Extract the actual error message
+        String errorMessage = e.toString().replaceFirst('Exception: ', '');
+
+        // Show user-friendly error dialog
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(title: Text(e.toString())),
+          builder: (context) => AlertDialog(
+            title: Text('Registration Failed'),
+            content: Text(errorMessage),
+            actions: [
+              // If email already exists, offer to go to login
+              if (errorMessage.contains('already registered'))
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('OK'),
+                ),
+            ],
+          ),
         );
       }
     }

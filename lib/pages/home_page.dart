@@ -1,4 +1,6 @@
 import 'package:chat_app/components/my_drawer.dart';
+import 'package:chat_app/components/user_tile.dart';
+import 'package:chat_app/pages/chat_page.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:chat_app/services/chat/chat_service.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +38,9 @@ class HomePage extends StatelessWidget {
         //return list view
         return ListView(
           children: snapshot.data!
-              .map<Widget>((userData) => _builderUserListItem)
+              .map<Widget>(
+                (userData) => _builderUserListItem(userData, context),
+              )
               .toList(),
         );
       },
@@ -48,6 +52,17 @@ class HomePage extends StatelessWidget {
     BuildContext context,
   ) {
     //display all users except current user
-    return UserTile();
+    return UserTile(
+      text: userData['email'],
+      onTap: () {
+        //tapped on a user to go to chat page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatPage(receiverEmail: userData["email"]),
+          ),
+        );
+      },
+    );
   }
 }
