@@ -14,8 +14,8 @@ class RegisterPage extends StatelessWidget {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  //login method
-  void register(BuildContext context) {
+  //sign in  method
+  void register(BuildContext context) async {
     final auth = AuthService();
 
     //passwords match -> create user
@@ -41,10 +41,11 @@ class RegisterPage extends StatelessWidget {
       }
 
       try {
-        auth.signUpWithEmailPassword(
+        await auth.signUpWithEmailPassword(
           _emailController.text,
           _passwordController.text,
         );
+        // Success! Navigate to home page
       } catch (e) {
         // Extract the actual error message
         String errorMessage = e.toString().replaceFirst('Exception: ', '');
@@ -66,14 +67,6 @@ class RegisterPage extends StatelessWidget {
           ),
         );
       }
-    }
-    //password dont match -> tell user to fix
-    else {
-      showDialog(
-        context: context,
-        builder: (context) =>
-            AlertDialog(title: Text('Password don\'t match!')),
-      );
     }
   }
 
