@@ -3,7 +3,6 @@ import 'package:chat_app/components/user_tile.dart';
 import 'package:chat_app/pages/chat_page.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:chat_app/services/chat/chat_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -61,7 +60,10 @@ class HomePage extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatPage(receiverEmail: userData["email"]),
+              builder: (context) => ChatPage(
+                receiverEmail: userData["email"],
+                receiverID: userData['uid'],
+              ),
             ),
           );
         },
