@@ -1,3 +1,4 @@
+import 'package:chat_app/components/chat_bubble.dart';
 import 'package:chat_app/components/my_textfield.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:chat_app/services/chat/chat_service.dart';
@@ -34,7 +35,8 @@ class ChatPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(receiverEmail),
         centerTitle: true,
-        elevation: 3,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.grey,
       ),
 
       body: Column(
@@ -88,33 +90,50 @@ class ChatPage extends StatelessWidget {
         ? Alignment.centerRight
         : Alignment.centerLeft;
 
+    // Debug print - remove this later
+    print('Current User ID: ${_authService.getCurrentUser()!.uid}');
+    print('Sender ID: ${data['senderID']}');
+    print('Is Current User: $isCurrentUser');
+
     return Container(
       alignment: alignment,
       child: Column(
         crossAxisAlignment: isCurrentUser
             ? CrossAxisAlignment.end
             : CrossAxisAlignment.start,
-        children: [Text(data['message'])],
+        children: [
+          ChatBubble(isCurrentUser: isCurrentUser, message: data["message"]),
+        ],
       ),
     );
   }
 
   Widget _buildUserInput() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      padding: const EdgeInsets.only(bottom: 20.0),
       child: Row(
         children: [
           //textfield should take up most of the space
           Expanded(
             child: MyTextfield(
-              hintText: 'Typr a message',
+              hintText: 'Type a message',
               obscureText: false,
               controller: _messageController,
             ),
           ),
 
           //sendButton
-          IconButton(onPressed: sendMessage, icon: Icon(Icons.arrow_upward)),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+            ),
+            margin: EdgeInsets.only(right: 25),
+            child: IconButton(
+              onPressed: sendMessage,
+              icon: Icon(Icons.arrow_upward, color: Colors.white),
+            ),
+          ),
         ],
       ),
     );
