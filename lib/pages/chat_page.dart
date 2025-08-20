@@ -90,11 +90,6 @@ class ChatPage extends StatelessWidget {
         ? Alignment.centerRight
         : Alignment.centerLeft;
 
-    // Debug print - remove this later
-    print('Current User ID: ${_authService.getCurrentUser()!.uid}');
-    print('Sender ID: ${data['senderID']}');
-    print('Is Current User: $isCurrentUser');
-
     return Container(
       alignment: alignment,
       child: Column(
@@ -119,6 +114,7 @@ class ChatPage extends StatelessWidget {
               hintText: 'Type a message',
               obscureText: false,
               controller: _messageController,
+              borderRadius: 30,
             ),
           ),
 

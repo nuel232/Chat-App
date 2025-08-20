@@ -12,9 +12,9 @@ class UserTile extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondary,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
         ),
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 25),
         padding: EdgeInsets.all(20),
         child: Row(
           children: [
@@ -24,7 +24,7 @@ class UserTile extends StatelessWidget {
             SizedBox(width: 20),
 
             //user name
-            Text(text),
+            Text(text, style: TextStyle(fontSize: 16)),
           ],
         ),
       ),
