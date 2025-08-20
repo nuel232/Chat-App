@@ -35,11 +35,11 @@ class _ChatPageState extends State<ChatPage> {
         //cause a delay so that the keyboard has time to show up
         //then the amount of remaining space will be calculated,
         //then scroll down
-        Future.delayed(const Duration(milliseconds: 500), () => scrollDown);
+        Future.delayed(const Duration(milliseconds: 500), () => scrollDown());
       }
     });
     //wait a bit for the listView to be built, then scroll to the bottom
-    Future.delayed(const Duration(milliseconds: 500), () => scrollDown);
+    Future.delayed(const Duration(milliseconds: 500), () => scrollDown());
   }
 
   @override
@@ -53,7 +53,7 @@ class _ChatPageState extends State<ChatPage> {
   void scrollDown() {
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent,
-      duration: Duration(seconds: 1),
+      duration: Duration(milliseconds: 600),
       curve: Curves.fastOutSlowIn,
     );
   }
@@ -71,14 +71,18 @@ class _ChatPageState extends State<ChatPage> {
       //clear the text controller
       _messageController.clear();
     }
-    Future.delayed(const Duration(milliseconds: 500), () => scrollDown);
+
+    scrollDown();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.receiverEmail),
+        title: Text(
+          widget.receiverEmail,
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.grey,
